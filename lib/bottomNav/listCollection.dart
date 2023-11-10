@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:dimas_dicoding/collectionDetail.dart';
 import 'package:dimas_dicoding/clothing.dart';
 
-class ItemListScreen extends StatefulWidget {
+class ItemListScreen extends StatelessWidget {
   final String imageUrl;
   final String title;
   final double price;
+
   const ItemListScreen({
     Key? key,
     required this.imageUrl,
@@ -14,59 +15,56 @@ class ItemListScreen extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _ItemListScreenState createState() => _ItemListScreenState();
-}
-
-class _ItemListScreenState extends State<ItemListScreen> {
-  @override
   Widget build(BuildContext context) {
-    String category = widget.title;
+    String category = title;
     List<String>? itemList = listItem[category];
     return Scaffold(
-        appBar: AppBar(
-          title: Text(category),
-          backgroundColor: const Color.fromRGBO(78, 130, 110, 1),
-        ),
-        body: Container(
-          decoration: const BoxDecoration(color: Color.fromRGBO(5, 3, 4, 1)),
-          child: ListView.builder(
-            itemCount: itemList?.length,
-            itemBuilder: (context, index) {
-              return Container(
-                margin: const EdgeInsets.only(
-                    bottom: 10), // Add a 10-pixel margin at the bottom
-                decoration:
-                    const BoxDecoration(color: Color.fromRGBO(78, 130, 110, 1)),
-                child: ListTile(
-                  leading: SizedBox(
-                    height: 100,
-                    width: 100,
-                    child: Image.network(
-                        ClothingItems().urlList[itemList![index]]!,
-                        fit: BoxFit.cover),
+      appBar: AppBar(
+        title: Text(category),
+        backgroundColor: const Color.fromRGBO(78, 130, 110, 1),
+      ),
+      body: Container(
+        decoration: const BoxDecoration(color: Color.fromRGBO(5, 3, 4, 1)),
+        child: ListView.builder(
+          itemCount: itemList?.length,
+          itemBuilder: (context, index) {
+            return Container(
+              margin: const EdgeInsets.only(
+                  bottom: 10), // Add a 10-pixel margin at the bottom
+              decoration:
+                  const BoxDecoration(color: Color.fromRGBO(78, 130, 110, 1)),
+              child: ListTile(
+                leading: SizedBox(
+                  height: 100,
+                  width: 100,
+                  child: Image.network(
+                    ClothingItems().urlList[itemList![index]]!,
+                    fit: BoxFit.cover,
                   ),
-                  title: Text(
-                    itemList[index],
-                    style: const TextStyle(
-                        color: Color.fromRGBO(232, 232, 230, 1)),
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => CollectionDetail(
-                          imageUrl: ClothingItems().urlList[itemList[index]]!,
-                          title: itemList[index],
-                          price: ClothingItems().prices[itemList[index]] ?? 0.0,
-                        ),
-                      ),
-                    );
-                  },
                 ),
-              );
-            },
-          ),
-        ));
+                title: Text(
+                  itemList[index],
+                  style:
+                      const TextStyle(color: Color.fromRGBO(232, 232, 230, 1)),
+                ),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CollectionDetail(
+                        imageUrl: ClothingItems().urlList[itemList[index]]!,
+                        title: itemList[index],
+                        price: ClothingItems().prices[itemList[index]] ?? 0.0,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            );
+          },
+        ),
+      ),
+    );
   }
 }
 

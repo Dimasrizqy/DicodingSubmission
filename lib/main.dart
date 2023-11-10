@@ -32,7 +32,6 @@ class _LoginState extends State<Login> {
     final bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
 
     if (isLoggedIn) {
-      // Jika sudah login, pindah ke halaman utama (misalnya, BottomNav)
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => const BottomNav()));
     }
@@ -46,11 +45,9 @@ class _LoginState extends State<Login> {
         final SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setBool('isLoggedIn', true);
 
-        // Jika username dan password sesuai, pindah ke halaman lain
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => const BottomNav()));
       } else {
-        // Jika username atau password tidak cocok, tampilkan pesan kesalahan
         showDialog(
           context: context,
           builder: (context) {
@@ -96,137 +93,128 @@ class _LoginState extends State<Login> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: const Color.fromRGBO(232, 232, 230, 1),
-        body: Stack(
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Align(
-                  child: Container(
-                    margin: const EdgeInsets.all(20),
-                    decoration: const BoxDecoration(
-                      color: Color.fromRGBO(78, 130, 110, 1),
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(175),
-                        topRight: Radius.circular(175),
-                        bottomRight: Radius.circular(175),
-                      ),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.3,
+              ),
+              Container(
+                margin: const EdgeInsets.all(20),
+                decoration: const BoxDecoration(
+                  color: Color.fromRGBO(78, 130, 110, 1),
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(175),
+                    topRight: Radius.circular(175),
+                    bottomRight: Radius.circular(175),
+                  ),
+                ),
+                child: Container(
+                  margin: const EdgeInsets.all(30),
+                  padding: const EdgeInsets.all(40),
+                  decoration: const BoxDecoration(
+                    color: Color.fromRGBO(232, 232, 230, 0.7),
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(175),
+                      topRight: Radius.circular(175),
+                      bottomRight: Radius.circular(175),
                     ),
-                    child: Container(
-                      margin: const EdgeInsets.all(30),
-                      padding: const EdgeInsets.all(40),
-                      decoration: const BoxDecoration(
-                        color: Color.fromRGBO(232, 232, 230, 0.7),
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(175),
-                          topRight: Radius.circular(175),
-                          bottomRight: Radius.circular(175),
+                  ),
+                  child: Form(
+                    child: Column(
+                      children: [
+                        TextField(
+                          controller: usernameController,
+                          cursorColor: const Color.fromRGBO(5, 3, 4, 1),
+                          decoration: const InputDecoration(
+                            labelText: 'Username',
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Color.fromRGBO(5, 3, 4, 1)),
+                            ),
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Color.fromRGBO(5, 3, 4, 1)),
+                            ),
+                            labelStyle:
+                                TextStyle(color: Color.fromRGBO(5, 3, 4, 1)),
+                          ),
                         ),
-                      ),
-                      child: SingleChildScrollView(
-                        child: Form(
+                        TextField(
+                          obscureText: true,
+                          cursorColor: const Color.fromRGBO(5, 3, 4, 1),
+                          controller: passwordController,
+                          decoration: const InputDecoration(
+                            labelText: 'Password',
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Color.fromRGBO(5, 3, 4, 1)),
+                            ),
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Color.fromRGBO(5, 3, 4, 1)),
+                            ),
+                            labelStyle:
+                                TextStyle(color: Color.fromRGBO(5, 3, 4, 1)),
+                            // Warna kursor
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.all(10),
                           child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              TextField(
-                                controller: usernameController,
-                                cursorColor: const Color.fromRGBO(5, 3, 4, 1),
-                                decoration: const InputDecoration(
-                                  labelText: 'Username',
-                                  focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Color.fromRGBO(5, 3, 4, 1)),
-                                  ),
-                                  enabledBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Color.fromRGBO(5, 3, 4, 1)),
-                                  ),
-                                  labelStyle: TextStyle(
-                                      color: Color.fromRGBO(5, 3, 4, 1)),
+                              ElevatedButton(
+                                onPressed: login,
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor:
+                                      const Color.fromRGBO(5, 3, 4, 1),
+                                ),
+                                child: const Text(
+                                  "Login",
+                                  style: TextStyle(
+                                      color: Color.fromRGBO(232, 232, 230, 1)),
                                 ),
                               ),
-                              TextField(
-                                obscureText: true,
-                                cursorColor: const Color.fromRGBO(5, 3, 4, 1),
-                                controller: passwordController,
-                                decoration: const InputDecoration(
-                                  labelText: 'Password',
-                                  focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const SizedBox(height: 10),
+                                  const Text(
+                                    "Don't have an account yet?",
+                                    style: TextStyle(
                                         color: Color.fromRGBO(5, 3, 4, 1)),
                                   ),
-                                  enabledBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Color.fromRGBO(5, 3, 4, 1)),
-                                  ),
-                                  labelStyle: TextStyle(
-                                      color: Color.fromRGBO(5, 3, 4, 1)),
-                                  // Warna kursor
-                                ),
-                              ),
-                              Container(
-                                margin: const EdgeInsets.all(10),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    ElevatedButton(
-                                      onPressed: login,
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor:
-                                            const Color.fromRGBO(5, 3, 4, 1),
-                                      ),
-                                      child: const Text(
-                                        "Login",
-                                        style: TextStyle(
-                                            color: Color.fromRGBO(
-                                                232, 232, 230, 1)),
+                                  const SizedBox(height: 10),
+                                  InkWell(
+                                    onTap: () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const Register(),
+                                        ),
+                                      );
+                                    },
+                                    child: const Text(
+                                      'Sign Up!',
+                                      style: TextStyle(
+                                        // fontSize: 24,
+                                        color: Colors.blue,
                                       ),
                                     ),
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        const SizedBox(height: 10),
-                                        const Text(
-                                          "Don't have an account yet?",
-                                          style: TextStyle(
-                                              color:
-                                                  Color.fromRGBO(5, 3, 4, 1)),
-                                        ),
-                                        const SizedBox(height: 10),
-                                        InkWell(
-                                          onTap: () {
-                                            // Navigasi ke halaman lain saat teks ditekan
-                                            Navigator.of(context).push(
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const Register(),
-                                              ),
-                                            );
-                                          },
-                                          child: const Text(
-                                            'Sign Up!',
-                                            style: TextStyle(
-                                              // fontSize: 24,
-                                              color: Colors.blue,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
+                                  ),
+                                ],
                               )
                             ],
                           ),
-                        ),
-                      ),
+                        )
+                      ],
                     ),
                   ),
                 ),
-              ],
-            ),
-          ],
+              ),
+            ],
+          ),
         ),
       ),
     );

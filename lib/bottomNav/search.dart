@@ -21,73 +21,76 @@ class _SearchScreenState extends State<SearchScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TextField(
-              onChanged: (value) {
-                // Mengambil hasil pencarian berdasarkan nilai input
-                searchResults = ClothingItems()
-                    .prices
-                    .keys
-                    .where((key) =>
-                        key.toLowerCase().contains(value.toLowerCase()))
-                    .toList();
-                // Menampilkan 10 data pertama dari hasil pencarian
-                setState(() {});
-              },
-              decoration: InputDecoration(
-                hintText: 'Search...',
-                prefixIcon: const Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextField(
+                onChanged: (value) {
+                  // Mengambil hasil pencarian berdasarkan nilai input
+                  searchResults = ClothingItems()
+                      .prices
+                      .keys
+                      .where((key) =>
+                          key.toLowerCase().contains(value.toLowerCase()))
+                      .toList();
+                  // Menampilkan 10 data pertama dari hasil pencarian
+                  setState(() {});
+                },
+                decoration: InputDecoration(
+                  hintText: 'Search...',
+                  prefixIcon: const Icon(Icons.search),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: 16),
-            const Text(
-              'Search Results',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
+              const SizedBox(height: 16),
+              const Text(
+                'Search Results',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            const SizedBox(height: 8),
-            Expanded(
-              child: ListView.builder(
-                itemCount:
-                    searchResults.length > 10 ? 10 : searchResults.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    leading: SizedBox(
-                      height: 100,
-                      width: 100,
-                      child: Image.network(
-                          ClothingItems().urlList[searchResults[index]]!,
-                          fit: BoxFit.cover),
-                    ),
-                    title: Text(searchResults[index]),
-                    onTap: () {
-                      // Aksi ketika item hasil pencarian ditekan
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => CollectionDetail(
-                            imageUrl:
-                                ClothingItems().urlList[searchResults[index]]!,
-                            title: searchResults[index],
-                            price:
-                                ClothingItems().prices[searchResults[index]] ??
-                                    0.0,
+              const SizedBox(height: 8),
+              Container(
+                height: MediaQuery.of(context).size.height - 230,
+                child: ListView.builder(
+                  itemCount:
+                      searchResults.length > 10 ? 10 : searchResults.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      leading: SizedBox(
+                        height: 100,
+                        width: 100,
+                        child: Image.network(
+                            ClothingItems().urlList[searchResults[index]]!,
+                            fit: BoxFit.cover),
+                      ),
+                      title: Text(searchResults[index]),
+                      onTap: () {
+                        // Aksi ketika item hasil pencarian ditekan
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CollectionDetail(
+                              imageUrl: ClothingItems()
+                                  .urlList[searchResults[index]]!,
+                              title: searchResults[index],
+                              price: ClothingItems()
+                                      .prices[searchResults[index]] ??
+                                  0.0,
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                  );
-                },
+                        );
+                      },
+                    );
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
